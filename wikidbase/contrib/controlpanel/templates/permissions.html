@@ -1,0 +1,21 @@
+{% load tags %}
+{% load thirdpartytags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Permissions{% endblock %}
+
+
+{% block content %}
+
+  <h1>Permissions</h1>
+
+  <p>
+  Permissions can be set to grant or deny access of specific roles from functionality of wikidbase.
+  </p>
+
+  <form id="add_role" method="post">
+    {{permissionsForm}}
+    <input type="submit" value="Save" name="save"/>
+  </form>
+
+{% endblock %}

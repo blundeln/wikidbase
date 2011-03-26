@@ -1,0 +1,21 @@
+{% load tags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Field Settings{% endblock %}
+
+{% block content %}
+{% if form.has_errors %}
+  <div class="warnflash">Please correct the following error{{ form.error_dict|pluralize }}:</div>
+{% endif %}
+
+<h1>Field Settings</h1>
+
+<form name="field_config" method="post" enctype="multipart/form-data">
+
+{{fieldConfigForm.as_p}}
+
+<input type="submit" value="Save"/>
+
+</form>
+
+{% endblock %}

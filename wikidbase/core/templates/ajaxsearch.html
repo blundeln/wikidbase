@@ -1,0 +1,29 @@
+<div>
+<input autocomplete="off" type="text" size="45" id="{{autocomplete}}" onclick="$(this).clear(); $('{{pageID}}').clear(); $('{{foreignLinkField}}').options.length=0"/>
+<span id="{{indicator}}" style="display: none"><img src="/media/images/indicator_arrows.gif" alt="Working..." /></span>
+<div id="{{choices}}" class="autocomplete"></div>
+<input type="hidden" id="{{pageID}}" name="{{pageID}}" autocomplete="off"></input>
+<input type="submit" value="Add Link"/>
+<script>
+new Ajax.Autocompleter("{{autocomplete}}", "{{choices}}", "{{pageURL}}", {paramName:"searchString", indicator:"{{indicator}}", afterUpdateElement : 
+  function (text, li) {
+    // Store the id of the clicked page.
+    $("{{pageID}}").value = li.id;
+    // Now look-up the fields.
+    new Ajax.Request('{{linkURL}}?pageID='+li.id+';foreignLinkField=' + '{{nLinkField}}', { method:'get',
+        onSuccess: function(transport){
+        json = eval("("+transport.responseText+")");
+        options = $("{{foreignLinkField}}").options;
+        options.length = 0;
+        for (var i = 0; i < json.length; i++) {
+          options[i] = new Option(json[i],json[i]);
+        }
+        }
+    });
+  }
+}); 
+</script>
+
+<select id="{{foreignLinkField}}" name="{{foreignLinkField}}"></select>
+
+</div>

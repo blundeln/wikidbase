@@ -1,0 +1,23 @@
+/*
+ * layout-3 (layout-3.css)
+ * -----------------------
+ *
+ * Description:
+ *
+ *
+ * Author       : Nick Blundell
+ * Organisation : www.nickblundell.org.uk
+ * Version Info : $Id$
+ */
+
+.pageskin1 {margin:0 60px 0 60px;}
+#header, #leftbar, #rightbar, #footer {position:relative;}
+#page {width:100%; position:relative;}
+#content {position:relative; margin-bottom:30px; vertical-align:top;}
+#header {height:200px;}
+#leftbar, #rightbar {width:180px; vertical-align:top;}
+#leftbar {width:80px; min-width:100px;}
+#footer {padding:40px 0 10px 0;}
+
+#version {position:absolute; top:70px; left:238px; font-size:20px; font-weight:bold; text-align:center; width:55px;}
+#currentuser {position:absolute; top:90px; left:0px; font-size:120%; font-weight:bold;}

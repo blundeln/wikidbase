@@ -1,0 +1,19 @@
+{% load tags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Control Panel{% endblock %}
+
+{% block content %}
+{% if form.has_errors %}
+  <div class="warnflash">Please correct the following error{{ form.error_dict|pluralize }}:</div>
+{% endif %}
+
+<h1>Control Panel</h1>
+
+<p>
+On these pages you can administer users, roles, permissions, data export/import of your wikidbase.
+</p>
+
+</form>
+
+{% endblock %}

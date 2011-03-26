@@ -1,0 +1,100 @@
+{% load tags %}
+{% load thirdpartytags %}
+<div class="container">
+
+  <table class="queryview calendarview {{viewType}}">
+   
+    {% comment %} Display view navigation bar {% endcomment %}
+    {% if source %}
+      <tr class="table-nav">
+        <td colspan="100">
+        <div style="float:left;">
+        <img class="ajax-trigger view-table" title="View this data as a table" src="/media/images/tableview.png" onclick="updateContent('{{source|urlquote}}?dateViewField', getParentAJAXContainer($(this),'container'))" />
+        
+        <img title="Last page" class="ajax-trigger view-next" src="/media/images/previouspage.png" onclick="updateContent('{{source|urlquote}}?dateOffset={{daysToPrevPage}}',getParentAJAXContainer($(this),'container'))" />
+        <img title="Next page" class="ajax-trigger view-prev" src="/media/images/nextpage.png" onclick="updateContent('{{source|urlquote}}?dateOffset={{daysToNextPage}}',getParentAJAXContainer($(this),'container'))" />
+        
+        | <span class="ajax-trigger view-today" title="Jump to Today" onclick="updateContent('{{source|urlquote}}?dateOffset', getParentAJAXContainer($(this),'container'))" >Today</span>
+        
+        | {% expr currentDate.strftime("%B %Y") %}
+
+        | Viewing: <b>{{displayDateViewField}}</b>
+        </div>
+        <div style="float:right;">
+          <span class="ajax-trigger view-month" title="View a month" onclick="updateContent('{{source|urlquote}}?viewType=VIEW_MONTH', getParentAJAXContainer($(this),'container'))" >Month</span> |
+          <span class="ajax-trigger view-week" title="View a week" onclick="updateContent('{{source|urlquote}}?viewType=VIEW_WEEK', getParentAJAXContainer($(this),'container'))" >Week</span> |
+          <span class="ajax-trigger view-day" title="View a day" onclick="updateContent('{{source|urlquote}}?viewType=VIEW_DAY', getParentAJAXContainer($(this),'container'))" >Day</span>
+          {{currentDate}}
+        </div>
+        </td>
+      </tr>
+    {% endif %}
+
+    {% comment %} Display the top row of display names {% endcomment %}
+    <tr>
+      {% for dayName in dayNames %}
+        <th class="dayname">{{dayName|capfirst}}</th>
+      {% endfor %}
+    </tr>
+    
+    {% comment %} Display calendar data rows {% endcomment %}
+    {% for dateRow in dateMatrix %}
+      
+      {% comment %} Display a row of dates, for headers of the data cells {% endcomment %}
+      <tr>
+        {% for date in dateRow %}
+          {% expr date - currentDate as dateOffset %}
+          {% expr datatype.toString(datatype.getDatePart(date)) as cellDateString %}
+          <td class="day-{{date.day}} cellheading {% ifnotequal date.month currentDate.month %} blur{% endifnotequal %}">
+            <span class="ajax-trigger cal-day-no" title="View this day" onclick="updateContent('{{source|urlquote}}?viewType=VIEW_DAY;dateOffset={{dateOffset.days}}', getParentAJAXContainer($(this),'container'))" >
+              {{date.day}}
+            </span>
+            {% if addContextPage %}
+              <a class="cal-add" title="Create a new {{addContextPage.context|capfirst}}" href="/CREATE/{{addContextPage.id}}?{{displayDateViewField}}={{cellDateString}}">[+]</a>
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+      
+      {% comment %} Display data cell rows. {% endcomment %}
+      <tr>
+        {% for date in dateRow %}
+          {% expr date in dateDict and dateDict[date] or None as calItems %}
+          {% expr "cell-%s" % random.randint(0,50000) as cellID %}
+          <td id="{{cellID}}" class="cell day-{{date.day}} {% ifequal date today %} today{% endifequal %}">
+            
+            {% comment %} Display data items for this date cell {% endcomment %}
+            {% if calItems %}
+
+              {% comment %} Display time and contents of each data item in this date cell {% endcomment %}
+              {% for calItem in calItems %}
+               
+                {% if calItem.wikidpage %}
+                  {% expr "%s-%s" % (cellID, random.randint(0,50000)) as itemCSSID %}
+                  <div class="calendaritem" id="{{itemCSSID}}">
+                    <div class="header" >
+                    {% if calItem.time %}
+                      <b>{% expr calItem.time.strftime("%I.%M%p").lower() %}</b>
+                    {% endif %}
+                    {% if calItem.wikidpage.context %}
+                      [{{ calItem.wikidpage.context|capfirst }}]
+                    {% endif %}
+                    </div>
+                    <div class="body">
+                      <a href="{{calItem.wikidpage.get_absolute_url}}">
+                        {{ calItem.content }}
+                      </a>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+    
+
+  </table>
+
+</div>

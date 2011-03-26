@@ -1,0 +1,179 @@
+#!/usr/bin/python
+# Copyright (C) 2007 Nick Blundell.
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+# The GNU GPL is contained in /usr/doc/copyright/GPL on a Debian
+# system and in the file COPYING in the Linux kernel source.
+# 
+# installer (installer)
+# ---------------------
+#
+# Description:
+#
+#
+# Author       : Nick Blundell
+# Organisation : www.nickblundell.org.uk
+# Version Info : $Id$
+#
+
+"""
+This script installs a basic wikidbase and is really just for demonstration of how its done and to help
+people that want to test it.  For more details on installation of django applications, refer to the django documentation.
+"""
+
+import os, sys, optparse
+import pkg_resources
+import wikidbase
+
+from nbdebug import *
+
+DEFAULT_PORT = 8182
+
+# Setup command line options.
+argParser = optparse.OptionParser(version=wikidbase.VERSION)
+argParser.add_option("--new", action="store_true", help="Create a new wikidbase", dest="new", default=False)
+argParser.add_option("--start", action="store_true", help="Start a wikidbase", dest="start", default=False)
+argParser.add_option("--stop", action="store_true", help="Stop a wikidbase", dest="stop", default=False)
+argParser.add_option("--install-init", action="store_true", help="Installs a start-up script for the wikidbase", dest="addStartupScript", default=False)
+argParser.add_option("--host", action="store", help="Host address to run server on", dest="host", default="0.0.0.0")
+argParser.add_option("--port", action="store", help="Port to run server on", dest="port", default=DEFAULT_PORT)
+
+# Parse the command-line args.
+(options, args) = argParser.parse_args()
+
+
+
+def run(command) :
+  debugOutput(command)
+  os.system(command)
+
+def error(message) :
+  print "Error: %s" % message
+  sys.exit(1)
+
+# Install init script.
+def addStartupScript(wikidbasePath, host, port) :
+  wikidbasePath = os.path.abspath(wikidbasePath)
+  debugOutput("Adding startup script for %s" % wikidbasePath)
+  
+  scriptName = "%s-%s" % ("wikidbase",os.path.basename(wikidbasePath))
+  
+  # Create the setup script
+  scriptContents = pkg_resources.resource_string(wikidbase.__name__, "resources/init-script.py")
+ 
+  # Replace tokens.
+  scriptContents = scriptContents.replace("START_COMMAND","""wikidbase-admin --start --host=%s --port=%s '%s'""" % (host, port, wikidbasePath))
+  scriptContents = scriptContents.replace("STOP_COMMAND","""wikidbase-admin --stop --host=%s --port=%s '%s'""" % (host, port, wikidbasePath))
+
+  # Write the script.
+  open(os.path.join("/etc/init.d",scriptName),"w").write(scriptContents)
+  run("chmod +x '%s'" % os.path.join("/etc/init.d",scriptName))
+
+  # Add it to init.
+  run("update-rc.d '%s' defaults" % scriptName)
+
+def new(wikidbaseName) :
+  print("Creating new site '%s'." % wikidbaseName)
+
+  if " " in wikidbaseName :
+    error("Cannot have spaces in the wikidbase name.")
+
+  # XXX
+  #if os.path.exists(wikidbaseName) :
+  #  error("File '%s' exists already." % wikidbaseName)
+
+  # Setup paths
+  wikidbasePath = os.path.abspath(wikidbaseName)
+  filesPath = os.path.join(wikidbasePath, "files")
+  databaseFile = os.path.join(wikidbasePath, "data.db")
+  sourceDir = os.path.dirname(os.path.abspath(wikidbase.__file__))
+  settingsFile = os.path.join(wikidbasePath, "settings.py")
+
+  # Create the folders
+  run("mkdir -p '%s'" % os.path.join(wikidbasePath, "modules"))
+  run("mkdir -p '%s'" % filesPath)
+
+  # Copy the master settings file and configure it.
+  masterSettings = open(os.path.join(sourceDir, "settings.py"),"r").read()
+  settings = masterSettings
+  settings = settings.replace("""DATABASE_NAME = \"\"""","DATABASE_NAME = \"%s\"" % databaseFile)
+  settings = settings.replace("DATABASE_ENGINE = \"\"","DATABASE_ENGINE = \"sqlite3\"")
+  settings = settings.replace("UPLOAD_FOLDER = \"\"","UPLOAD_FOLDER = \"%s\"" % filesPath)
+  settings = settings.replace("CACHE_BACKEND = \"\"","CACHE_BACKEND = \"db://wbcache\"")
+  open(settingsFile, "w").write(settings)
+  
+  # Create an empty database file
+  run("touch '%s'" % databaseFile)
+
+  # Initialise the data models.
+  run("%s --pythonpath='%s' --settings=settings createcachetable wbcache" % (getDjangoAdmin(), wikidbasePath))
+  # syncdb
+  run("%s --pythonpath='%s' --settings=settings syncdb" % (getDjangoAdmin(), wikidbasePath))
+
+def start(wikidbasePath, host, port) :
+  debugOutput("Starting")
+  run("%s --pythonpath='%s' --settings=settings runserver %s:%s" % (getDjangoAdmin(), wikidbasePath, host, port))
+
+def stop(wikidbasePath) :
+  debugOutput("Stopping")
+  run("""pkill -f '\\-\\-pythonpath=\'%s\' \\-\\-settings=settings runserver' """ % wikidbasePath)
+
+
+def get_virtualenv_path() :
+  
+  ENV = "wikidbase_env"
+  for path in sys.path :
+    if ENV in path :
+      return os.path.join(path.split(ENV)[0], ENV)
+
+  return None
+
+def getDjangoAdmin() :
+  # Sometimes the script has a .py and sometimes not, so let's detect it.
+ 
+  # If we are in a virtualenv, use django-admin in there.
+  virtualenv_path = get_virtualenv_path()
+  if virtualenv_path :
+    django_admin = os.path.join(virtualenv_path, "bin", "django-admin.py")
+    if os.path.exists(django_admin) :
+      return django_admin
+    django_admin = os.path.join(virtualenv_path, "bin", "django-admin")
+    if os.path.exists(django_admin) :
+      return django_admin
+  
+  if os.path.exists("/usr/bin/django-admin.py") :
+    return "/usr/bin/django-admin.py"
+  if os.path.exists("/usr/bin/django-admin") :
+    return "/usr/bin/django-admin"
+ 
+  raise Exception("Can't find django-admin")
+
+def main() :
+  
+  if options.new :
+    new(args[0])
+  elif options.start :
+    start(args[0], options.host, options.port)
+  elif options.stop :
+    stop(args[0])
+  elif options.addStartupScript :
+    addStartupScript(args[0], options.host, options.port)
+
+  print "\n---\n" + wikidbase.getCredits()
+
+
+if __name__=="__main__" :
+  main()

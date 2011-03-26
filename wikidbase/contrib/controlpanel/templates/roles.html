@@ -1,0 +1,29 @@
+{% load tags %}
+{% load thirdpartytags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Users{% endblock %}
+
+
+{% block content %}
+
+  <h1>User Roles</h1>
+
+  <p>
+  Roles allow you to grant specific permissions to groups of users.  Examples of roles are: admin, editor, sales, manager, etc.
+  </p>
+  
+  <ul>
+    {% for role in roles %}
+      <li>
+      {{role}} <a href="/controlpanel/roles/{{role}}/delete" title="Delete this role"><img src="/media/images/delete.png"/></a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <form id="add_role" method="post">
+    {{addRoleForm.new_role}}
+    <input type="submit" name="add_role" value="Add Role"/>
+  </form>
+
+{% endblock %}

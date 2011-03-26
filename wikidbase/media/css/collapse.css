@@ -1,0 +1,27 @@
+fieldset {border: 1px solid #ccc;}
+
+html.js fieldset.collapsed {
+  border-bottom-width: 0;
+  border-left-width: 0;
+  border-right-width: 0;
+  margin-bottom: 0;
+}
+html.js fieldset.collapsed * {
+  display: none;
+}
+html.js fieldset.collapsed table *,
+html.js fieldset.collapsed legend,
+html.js fieldset.collapsed legend * {
+  display: inline;
+}
+html.js fieldset.collapsible legend a {
+  padding-left: 15px;
+  background: url(images/menu-expanded.png) 5px 50% no-repeat;
+}
+html.js fieldset.collapsed legend a {
+  background-image: url(images/menu-collapsed.png);
+}
+/* Note: IE-only fix due to '* html' (breaks Konqueror otherwise). */
+* html.js fieldset.collapsible legend a {
+  display: block;
+}

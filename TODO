@@ -1,0 +1,120 @@
+#
+# Copyright (C) 2006 Nick Blundell.
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+# The GNU GPL is contained in /usr/doc/copyright/GPL on a Debian
+# system and in the file COPYING in the Linux kernel source.
+# 
+# TODO (TODO)
+# -----------
+#
+# Description:
+#
+#
+# Author       : Nick Blundell
+# Organisation : www.nickblundell.org.uk
+# Version Info : $Id$
+#
+
+BUGS
+----
+* Sorting None bug
+
+Todo List
+---------
+
+Things for me to always bear in mind:
+ * Keep the interface as simple and as uncluttered as possible.
+ * Stablise each feature before working on the next feature.
+ * Make the db model as future proof as possible, so that system updates will always be possible with existing data.
+
+
+
+------
+1.0.a2
+------
+
+* Test that AJAX runs javascript snippets.
+* space between time and AM/PM causes type recognition error.
+* Some date times do not appear to be sorting properly
+* Can I do this:
+  show me all websites where today - 30 days > last renewed + renewal years. 
+
+* Calendar view
+ * Enhance
+ * month, week, day
+ * Click to add on a day
+
+* Simple User authorisation based on contexts
+ * can create
+ * can view/edit pages x,y,x
+ * can wikiedit pages x,y,z, all
+ * can delete pages x,y,z
+ 
+
+* Context settings
+ * Move Field[]:: thing to the context.
+ * Semi-structured settings for contexts (e.g. populate lists, required fields, permissions)
+ * Mandatory fields Name*::Nick
+ * Default list values
+
+* RPC for queries in remote apps
+ * e.g. wikidbase.rpc.remoteQuery("show me people where name is nick") etc.
+
+* Fields
+ * progress bar field for percentages.
+
+* Editbox grippie???
+* Order selection options by most common first.
+
+* Organise headings
+ * sort automatically or by display field order
+
+
+* query system
+  * show staff projects, where no condition on relatonal field (e.g. show contacts of people name=nick).
+    * Translates to show ... contacts.id > 0
+  * localised or in query (e.g. show me staff where name = thos or that).
+
+* Save-and-back button a-la django admin  - this is a very simple but useful idea.
+
+* New button can assume desired links from context of query
+  * e.g. a list of nicks tasks should have a button to create tasks with a convienent preloaded link to nick's record.
+  * Maybe this is not necessary
+
+
+-----
+1.1 Bells and whistles
+-----
+* Clever clustering of widgets (e.g. cluster of checkboxes) to improve form interface
+* special reagion blocks
+  * side-Block pages
+  * Menu page
+* Query set filters
+  * Graphs
+* Image thumbnail view?
+* Plug-in command filter (e.g. to add new commands)
+
+-----
+1.2
+-----
+* Enchanced user authorisation
+* Query optimisation
+  * I just had a crackin' idea about this
+    * Suppose the system could detect that certain searches of the semi-structure take longer than others (e.g on certain fields or on contexts)
+      then we could have reserved model fields in wikidpages that can be used to hold certain wikidpage fields natively
+      in the db table fields, then queries can first be wittled down on db queries - I'll need to have a good think about this.
+

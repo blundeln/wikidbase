@@ -1,0 +1,39 @@
+{% load tags %}
+{% load thirdpartytags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}{{context}} Settings{% endblock %}
+
+
+{% block content %}
+
+  <h1>Fields in type <em>{{context}}</em></h1>
+
+
+  <p>
+  Click on the following fields to configure them.  This page allows you to easily evolve your data model by adding or removing fields.
+  </p>
+
+
+  <ul>
+    {% for nFieldName in fields %}
+      {% expr fields[nFieldName] as fieldName %}
+      <li>
+        <a href="/CONFIG_FIELD/{{nContext}}/{{nFieldName}}">{{fieldName}}</a> <a href="/controlpanel/datatype/{{nContext}}/delete/{{nFieldName}}" title="Delete this field"><img src="/media/images/delete.png"/></a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  
+  <h1>Add new field to all <em>{{context}}</em></h1>
+
+  <p>
+  Note that, depending on the amount of data you have, this may take a while, since the field will be added to each <em>{{context}}</em> wikidpage.
+  </p>
+
+  <form id="datatype" method="post" enctype="multipart/form-data">
+    {{addFieldForm.as_p}}
+    <input type="submit" value="Add Field"/>
+  </form>
+
+{% endblock %}

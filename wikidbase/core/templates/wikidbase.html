@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load tags %}
+
+{% block extrahead %}
+<!--link rel="stylesheet" type="text/css" href="/admin_media/css/forms.css" /--> 
+<script type="text/javascript" src="/jsi18n/"></script> 
+<script type="text/javascript" src="/admin_media/js/core.js"></script>
+<script type="text/javascript" src="/admin_media/js/admin/RelatedObjectLookups.js"></script>
+<script type="text/javascript" src="/admin_media/js/calendar.js"></script>
+<script type="text/javascript" src="/admin_media/js/admin/DateTimeShortcuts.js"> </script>
+
+<link rel="stylesheet" type="text/css" media="all" href="/media/js/calendar/calendar-win2k-cold-1.css" title="win2k-cold-1" />
+<script type="text/javascript" src="/media/js/calendar/calendar.js"></script>
+<script type="text/javascript" src="/media/js/calendar/calendar-en.js"></script>
+<script type="text/javascript" src="/media/js/calendar/calendar-setup.js"></script>
+<script type="text/javascript" src="/media/js/collapse.js"></script>
+<script type="text/javascript" src="/media/js/prototype.js"></script>
+<script type="text/javascript" src="/media/js/wikidbase-ajax.js"></script>
+<script type="text/javascript" src="/media/js/edit-select.js"></script>
+<script src="/media/js/scriptaculous/scriptaculous.js"></script>
+<link rel="stylesheet" href="/media/css/collapse.css" />
+<script type="text/javascript" src="/media/js/tooltip.js"></script>
+{% endblock %}
+
+
+{% block body %}
+
+{% startSkinBox "pageskin" %}
+<table id="page">
+
+<tr><td colspan="3">
+<div id="header">
+<div id="version">{{version}}</div>
+<!--div id="currentuser">{{user}}</div-->
+{% searchForm %}
+{% block header %}{% endblock %}
+</div>
+</td></tr>
+
+<tr>
+<td id="leftbar">
+{% startSkinBox "blockboxskin" %}
+{% mainMenu %}
+{% stopSkinBox "blockboxskin" %}
+</td>
+
+<td id="xcontent" valign="top">
+<div id="content">
+{% startSkinBox "contentskin" %}
+
+  {% if messages or anonMessages %}
+    <ul class="message">
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+      {% for message in anonMessages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <ul id="pagetabs"> 
+      {% for pageTab in pageTabs %}
+      <li class="{% if pageTab.2 %}active{% endif %}"><a id="{{pageTab.3}}" title="{{pageTab.4}}" {% if pageTab.1 %}href="{{pageTab.1}}"{% endif %}>{{pageTab.0}}</a></li>
+    {% endfor %}
+  </ul>
+
+{% block content %}{{content}}{% endblock %}
+
+{% stopSkinBox "contentskin" %}
+</div>
+</td>
+
+<td id="rightbar">
+{% block rightbar %}{% endblock %}
+</td>
+</tr>
+
+<tr>
+<td id="footer" colspan="3">
+{% block footer %}
+wikidbase {{version}} Copyright &#169; <a href="http://www.nickblundell.org.uk">Nick Blundell</a> 2006-2008<br/>
+This open source project has been supported by <a href="http://www.illuminateict.org.uk">Illuminate ICT</a> and Nick's weekends.
+<br/>{% if not user.is_anonymous %}<a href="/accounts/logout">[Logout]</a>{% else %}<a href="/accounts/login">[Login]</a>{% endif %}
+<br/>
+
+{% endblock %}
+</td>
+</tr>
+
+</table>
+{% stopSkinBox "pageskin" %}
+
+{% endblock %}
+

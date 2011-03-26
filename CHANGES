@@ -1,0 +1,17 @@
+CHANGE SET
+==========
+
+CURRENT RELEASE
+
+Improved the relationship interface
+Created wikidbase-admin helper script
+Improved field manipulation (e.g. for textareas, drop-downs, etc.)
+Added a control panel for admins
+Added user support, with users, roles, and permissions.
+Improved the calendar view
+Re-written query engine to support more complex logic.
+Added a modular framework so wikidbase can be easily extended.
+
+1.0.a2.dev-r719 - First major alpha release (29th June 2007)
+
+First major release.

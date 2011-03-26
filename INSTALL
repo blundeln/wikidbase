@@ -1,0 +1,68 @@
+#
+# Copyright (C) 2007 Nick Blundell.
+# 
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+# 
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+# 
+# The GNU GPL is contained in /usr/doc/copyright/GPL on a Debian
+# system and in the file COPYING in the Linux kernel source.
+# 
+# INSTALL (INSTALL)
+# -----------------
+#
+# Description:
+#
+#
+# Author       : Nick Blundell
+# Organisation : www.nickblundell.org.uk
+# Version Info : $Id$
+#
+
+Note, this file is aimed at developers.
+
+Dependencies
+------------
+
+"python >= 2.6", "django < 1.0","pyparsing","docutils","nbdebug","parsedatetime"
+
+NEW: virtualenv install
+======================================
+
+Wikidbase is installed using virtualenv by default, since it currentl depends on
+django < 1.0, and you will likely want to install a newer version of django for
+other apps.
+
+run sudo setup.py install
+
+
+DEVELOPMENT/TESTING INSTALLATION
+================================
+
+$ cd into the wikidbase source directory
+
+$ sudo python real_setup.py develop
+
+* Edit settings.py to configure the database backend
+ * See django docs on how to do this.
+
+* create a cache table.
+  $ python wikidbase/manage.py createcachetable wbcache
+
+* Inialise the models in the database
+  $ python wikidbase/manage.py syncdb
+
+* Run in Django development server
+ $ python wikidbase/manage.py runserver 0.0.0.0:8080
+
+* Access the site through your browser

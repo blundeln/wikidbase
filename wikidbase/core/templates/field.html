@@ -1,0 +1,9 @@
+<div class="formrow">
+<label for="{{field.get_id}}">
+  {% if nContext and permissions.access_administration_pages %} <a href="/CONFIG_FIELD/{{nContext}}/{{nFieldname}}"> {% endif %}
+    {% if displayName %}{{displayName|capfirst}}{% else %}{{field.field_name|capfirst}}{% endif %}
+  {% if nContext %}</a>{% endif %}
+</label>
+{{field}}
+{% if field.errors %}<div class="warnflash">{{ field.errors|join:", " }}</div> {% endif %}
+</div>

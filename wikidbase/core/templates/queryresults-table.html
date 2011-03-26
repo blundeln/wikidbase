@@ -1,0 +1,152 @@
+{% load tags %}
+{% load thirdpartytags %}
+<div class="container">
+
+  {% if addContextPage %}
+  <div class="linkbutton">
+  <a title="Create a new {{addContextPage.context|capfirst}}" href="/CREATE/{{addContextPage.id}}">New: {{addContextPage.context|capfirst}}</a>
+  </div>
+  {% endif %}
+
+  <table class="queryview tableview">
+
+    {% comment %}
+    #
+    # Table control bar (e.g. for pagination, rows expansion, etc.)
+    #
+    {% endcomment %}
+
+    {% if source %}
+      <tr class="table-nav">
+        <td colspan="100">
+
+        <img title="Show all hidden fields" class="ajax-trigger show-hidden-fields" onclick="updateContent('{{source|urlquote}}?showAllHeaders=true', getParentAJAXContainer($(this),'container'))" src="/media/images/show.png"/>
+        <img title="Display more rows" class="ajax-trigger show-more-rows" src="/media/images/addrows.png" onclick="updateContent('{{source|urlquote}}?maxPageRows={% expr int(maxPageRows * 2) %}',getParentAJAXContainer($(this),'container'))"/>
+        <img title="Display less rows" class="ajax-trigger show-less-rows" src="/media/images/removerows.png" onclick="updateContent('{{source|urlquote}}?maxPageRows={% expr int(maxPageRows * 0.5) %}',getParentAJAXContainer($(this),'container'))"/>
+        
+        {% ifnotequal noPages 1 %}
+        <div class="left">Page {% expr page + 1 %} / {{ noPages }}</div>
+
+        <div class="middle">
+        <img class="ajax-trigger go-to-first-page" onclick="updateContent('{{source|urlquote}}?page=0',getParentAJAXContainer($(this),'container'))" title="Go to first page" src="/media/images/first.png"/>
+
+        <img title="Go to previous page" class="ajax-trigger" src="/media/images/previouspage.png" {% ifnotequal prevPage None %} onclick="updateContent('{{source|urlquote}}?page={{prevPage}}',getParentAJAXContainer($(this),'container'))" {% endifnotequal %} />
+
+        {% for pageNo in pageRange %}
+        <div class="pagelink ajax-trigger" onclick="updateContent('{{source|urlquote}}?page={{pageNo}}',getParentAJAXContainer($(this),'container'))" >{% ifequal page pageNo %}<b>{% expr pageNo + 1 %}</b>{% else %}{% expr pageNo + 1 %}{% endifequal %}</div>
+        {% endfor %}
+
+        <img title="Go to next page" class="ajax-trigger" src="/media/images/nextpage.png" {% if nextPage %} onclick="updateContent('{{source|urlquote}}?page={{nextPage}}',getParentAJAXContainer($(this),'container'))" {% endif %} />
+
+        <img title="Go to last page" class="ajax-trigger go-to-last-page" src="/media/images/last.png" onclick="updateContent('{{source|urlquote}}?page={{lastPage}}',getParentAJAXContainer($(this),'container'))"/>
+        </div>
+        {% endifnotequal %}
+
+        <div class="right">
+        </div>
+
+        </td>
+      </tr>
+    {% endif %}
+
+
+    {% comment %}
+    #
+    # Table column headings.
+    #
+    {% endcomment %}
+
+    <tr class="table-header">
+      {% for nFieldHeading in displayHeadings %}
+          {% expr displayHeadings[nFieldHeading].fieldHeading as heading %}
+          <th>
+          <table>
+            <tr>
+            <td>{{heading|capfirst}} 
+            {% if source %}
+              <img title="Hide this field" class="ajax-trigger {{nFieldHeading}}_HIDE_FIELD" onclick="updateContent('{{source|urlquote}}?hideHeader={{nFieldHeading|normaliseTerm}}', getParentAJAXContainer($(this),'container'))" src="/media/images/hide.png"/> </td>
+            {% endif %}
+            <td>
+
+            {% if source %}
+            <img class="sortascend ajax-trigger {{nFieldHeading}}_SORT_ASCEND" src="/media/images/sort-ascend.png"/ onclick="updateContent('{{source|urlquote}}?sortField={{nFieldHeading}};sortValue=SORT_ASCEND', getParentAJAXContainer($(this),'container'))" >
+            <br/>
+            <img class="sortdescend ajax-trigger {{nFieldHeading}}_SORT_DESCEND" src="/media/images/sort-descend.png"/ onclick="updateContent('{{source|urlquote}}?sortField={{nFieldHeading}};sortValue=SORT_DESCEND', getParentAJAXContainer($(this),'container'))" >
+            {% endif %}
+            </td>
+  
+            {% expr queryResults.getFieldTypes(nFieldHeading) as dataTypes %}
+            {% expr True in [datatype.isDateType(dataType) for dataType in dataTypes] as dateType %}
+            {% if dateType %}
+            <td>
+            <img title="Calendar view" class="ajax-trigger cal-switch-{{nFieldHeading}}" src="/media/images/datetimeview.png" onclick="updateContent('{{source|urlquote}}?dateViewField={{nFieldHeading}}', getParentAJAXContainer($(this),'container'))" >
+            </td>
+            {% endif %}
+            </tr>
+          </table>
+
+          </th>
+      {% endfor %}
+      <th class="row-options">Options</th>
+    </tr>
+
+
+    {% comment %}
+    #
+    # Table data.
+    #
+    {% endcomment %}
+
+    {% for queryItem in queryItems %}
+      <tr>
+        {% for heading in displayHeadings %}
+            {% expr queryItem.getData(heading) as dataItem %}
+            {% expr dataItem[0] and dataItem[0].data or None as data %}
+            {% expr dataItem[1] as dataWikidpage %}
+            {% expr datatype.convert(data, mode=datatype.TO_PYTHON) as pythonData %}
+            {% expr type(pythonData) == bool as isBool %}
+            {% expr datatype.convert(pythonData, mode=datatype.TO_STRING, form=datatype.STRING_FORM_SHORT) as displayData %}
+            <td>{% if displayData %}
+            <a href="{% if dataWikidpage %}{{dataWikidpage.get_absolute_url}}{% endif %}">
+              {% if isBool %}
+                {% if pythonData %}
+                  <img src="/media/images/tick.png"/>
+                {% else %}
+                  <img src="/media/images/cross.png"/>
+                {% endif %}
+              {% else %}
+                {{displayData}}
+              {% endif %}
+            </a>
+            {% endif %}</td>
+
+        {% endfor %}
+
+        <td class="row-options">
+        
+          {% expr queryItem.getPrimaryWikidpage() as primaryPage %}
+          
+          {% if primaryPage %}
+            
+            {% if nLinkField %}
+              <a href="/{{wikidpage.id}}/DELETE_LINK/{{ primaryPage.id }}/{{nLinkField}}?next={{wikidpage.get_absolute_url}}" title="Delete the link to this wikidpage"><img src="/media/images/unlink.png"/></a>
+            {% endif %}
+
+            {% if queryItem.isSingleWikidpage %}
+              <a href="/{{primaryPage.id}}/DELETE_PAGE?next={{wikidpage.get_absolute_url}}" title="Delete this wikidpage"><img src="/media/images/delete.png"/></a>
+            {% endif %}
+        
+          {% endif %}
+
+        </td>
+
+      </tr>
+    {% endfor %}
+
+  </table>
+
+  {% if source %}
+    <a class="exportcsv" href="{{source|urlquote}}data.csv" title="Export this data as a CSV file for a spreadsheet"><img src="/media/images/csvbutton.png"></a>
+  {% endif %}
+
+</div>

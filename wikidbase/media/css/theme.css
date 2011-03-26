@@ -1,0 +1,159 @@
+/*
+ * theme (theme.css)
+ * -----------------
+ *
+ * Description:
+ *	Theme
+ *
+ * Author       : Nick Blundell
+ * Organisation : www.nickblundell.org.uk
+ * Version Info : $Id$
+ */
+
+body {background-color:#d6e7f9;}
+
+.clear:after {
+content: "."; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+
+.clear {display: inline-block;}
+
+/* Hides from IE-mac \*/
+* html .clear {height: 1%;}
+.clear {display: block;}
+/* End hide from IE-mac */
+
+
+div.pageskin1 { background: transparent none repeat-x top; }
+div.pageskin2 { background: transparent none repeat-y right; }
+div.pageskin3 { background: transparent none repeat-x bottom; }
+div.pageskin4 { background: transparent none repeat-y left; }
+div.pageskin5 { background: transparent none no-repeat top left; }
+div.pageskin6 { background: transparent none no-repeat top right; }
+div.pageskin7 { background: transparent none no-repeat bottom right; }
+div.pageskin8 { background: transparent none no-repeat bottom left; }
+
+div.pageskin1 {background-image: url(images/page-ts.png);}
+div.pageskin2 {background-image: url(images/page-rs.png);}
+div.pageskin3 {background-image: url(images/page-bs.png);}
+div.pageskin4 {background-image: url(images/page-ls.png);}
+div.pageskin5 {background-image: url(images/page-tl.png);}
+div.pageskin6 {background-image: url(images/page-tr.png);}
+div.pageskin7 {background-image: url(images/page-br.png);}
+div.pageskin8 {background-image: url(images/page-bl.png);}
+
+div.contentskin1 { background: transparent none repeat-x top; }
+div.contentskin2 { background: transparent none repeat-y right; }
+div.contentskin3 { background: transparent none repeat-x bottom; }
+div.contentskin4 { background: transparent none repeat-y left; }
+div.contentskin5 { background: transparent none no-repeat top left; }
+div.contentskin6 { background: transparent none no-repeat top right; }
+div.contentskin7 { background: transparent none no-repeat bottom right; }
+div.contentskin8 { background: transparent none no-repeat bottom left; }
+
+div.contentskin1 {background-image: url(images/content-ts.png); background-color:#ffffff;}
+div.contentskin2 {background-image: url(images/content-rs.png);}
+div.contentskin3 {background-image: url(images/content-bs.png);}
+div.contentskin4 {background-image: url(images/content-ls.png);}
+div.contentskin5 {background-image: url(images/content-tl.png);}
+div.contentskin6 {background-image: url(images/content-tr.png);}
+div.contentskin7 {background-image: url(images/content-br.png);}
+div.contentskin8 {background-image: url(images/content-bl.png); padding:40px 15px 25px 15px;}
+
+div.msgboxskin1 { background: transparent none repeat-x top; }
+div.msgboxskin2 { background: transparent none repeat-y right; }
+div.msgboxskin3 { background: transparent none repeat-x bottom; }
+div.msgboxskin4 { background: transparent none repeat-y left; }
+div.msgboxskin5 { background: transparent none no-repeat top left; }
+div.msgboxskin6 { background: transparent none no-repeat top right; }
+div.msgboxskin7 { background: transparent none no-repeat bottom right; }
+div.msgboxskin8 { background: transparent none no-repeat bottom left; }
+
+div.msgboxskin1 {background-image: url(images/wbmsgbox-ts.png); background-color:#ffffff;}
+div.msgboxskin2 {background-image: url(images/wbmsgbox-rs.png);}
+div.msgboxskin3 {background-image: url(images/wbmsgbox-bs.png);}
+div.msgboxskin4 {background-image: url(images/wbmsgbox-ls.png);}
+div.msgboxskin5 {background-image: url(images/wbmsgbox-tl.png);}
+div.msgboxskin6 {background-image: url(images/wbmsgbox-tr.png);}
+div.msgboxskin7 {background-image: url(images/wbmsgbox-br.png);}
+div.msgboxskin8 {background-image: url(images/wbmsgbox-bl.png); padding:60px 30px 40px 30px;}
+
+div.msgboxskin1 {width:400px;margin-top:100px; margin-left:auto; margin-right:auto;}
+
+
+div.blockboxskin1 { background: transparent none repeat-x top; }
+div.blockboxskin2 { background: transparent none repeat-y right; }
+div.blockboxskin3 { background: transparent none repeat-x bottom; }
+div.blockboxskin4 { background: transparent none repeat-y left; }
+div.blockboxskin5 { background: transparent none no-repeat top left; }
+div.blockboxskin6 { background: transparent none no-repeat top right; }
+div.blockboxskin7 { background: transparent none no-repeat bottom right; }
+div.blockboxskin8 { background: transparent none no-repeat bottom left; }
+
+div.blockboxskin1 {background-image: url(images/wbblockbox-ts.png);}
+div.blockboxskin2 {background-image: url(images/wbblockbox-rs.png);}
+div.blockboxskin3 {background-image: url(images/wbblockbox-bs.png);}
+div.blockboxskin4 {background-image: url(images/wbblockbox-ls.png);}
+div.blockboxskin5 {background-image: url(images/wbblockbox-tl.png);}
+div.blockboxskin6 {background-image: url(images/wbblockbox-tr.png);}
+div.blockboxskin7 {background-image: url(images/wbblockbox-br.png);}
+div.blockboxskin8 {background-image: url(images/wbblockbox-bl.png);}
+
+div.blockboxskin1 {background-color: #ffffff;}
+div.blockboxskin8 {padding:10px 10px 10px 10px;}
+
+
+/* Page tabs */
+
+ul#pagetabs {
+  position:absolute;
+  margin:0;
+  margin-right: 8px;
+  padding:0;
+  list-style:none;
+  top:4px;
+  left:27px;
+}
+
+#pagetabs li {
+  float:left;
+  background:none no-repeat right top;
+  margin:0 4px 0 0;
+}
+
+#pagetabs a {
+  display: block;
+  background:none no-repeat left top;
+  padding:5px 12px 20px 12px;
+  font-size:16px;
+  font-weight:bold;
+  color:#333;
+}
+
+#pagetabs li#current {
+  background:none no-repeat right top;
+}
+
+#pagetabs #current a {
+  background:none no-repeat left top;
+}
+
+#pagetabs a:hover {
+  background:none no-repeat left top;
+  text-decoration:none;
+}
+
+#pagetabs li:hover {
+  background:none no-repeat right top;
+}
+
+#pagetabs li {background-image:url("images/pagetab-n-r.png");}
+#pagetabs a {background-image:url("images/pagetab-n-l.png");}
+#pagetabs li.active {background-image:url("images/pagetab-a-r.png");}
+#pagetabs .active a {background-image:url("images/pagetab-a-l.png");}
+#pagetabs a:hover {background-image:url("images/pagetab-a-l.png");}
+#pagetabs li:hover {background-image:url("images/pagetab-a-r.png");}

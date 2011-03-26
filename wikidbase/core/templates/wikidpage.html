@@ -1,0 +1,54 @@
+{% load tags %}
+{% load thirdpartytags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}{{wikidpage.name}}{% endblock %}
+
+{% block content %}
+  
+  {% if form.has_errors %}
+    <div class="warnflash">Please correct the following error{{ form.error_dict|pluralize }}:</div>
+  {% endif %}
+
+  <h1 class="pagetitle">{% if wikidpage.context %} [type: {{ wikidpage.context|capfirst }}]{% endif %}</h1>
+
+  <form id="wikidpage" method="post" enctype="multipart/form-data">
+    {{content}}
+
+    {% if wikidpage and uploadFileForm and wikidpage.isWikiEditable %}
+    <fieldset class="collapsible {% if not wikidpage.getAttachedFiles %}collapsed{% endif %}"><legend>Attached files</legend>
+      <ul class="fileattachments">
+        {% for filename in wikidpage.getAttachedFiles %}
+        <li>
+          <a href="/FILES/{{filename}}">
+            <img src="/media/images/file.png"/>
+            {{filename}}
+          </a>
+          {% if permissions.delete %}
+            <a href="/DELETE_FILE/{{wikidpage.id}}/{{filename}}" title="Delete this attached file."><img src="/media/images/delete.png"/></a>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+
+      {% if permissions.edit %}
+        {{uploadFileForm.as_p}}
+      {% endif %}
+    </fieldset>
+    {% endif %}
+
+    {% if permissions.edit %}
+      <input name="save_and_back" type="submit" value="Save & Back"/>
+      <input name="save" type="submit" value="Save"/>
+    {% endif %}
+    {% if permissions.delete and wikidpage.id %}<a href="/{{wikidpage.id}}/DELETE_PAGE"><input name="delete" type="button" value="Delete"/></a>{% endif %}
+    <input type="hidden" name="bool-aid" value=""/>
+
+  </form>
+  
+  {% if editSource %}
+    <hr/>
+    {% quickEditGuide %}
+  {% endif %}
+
+{% endblock %}

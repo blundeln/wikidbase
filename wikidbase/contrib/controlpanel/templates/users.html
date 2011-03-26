@@ -1,0 +1,40 @@
+{% load tags %}
+{% load thirdpartytags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Users{% endblock %}
+
+
+
+{% block content %}
+
+  {% ifequal userForm.mode "create" %}
+    <h1>Users</h1>
+    <ul>
+    {% for username in users %}
+      {% expr users[username] as u %}
+      <li>
+      <a href="/controlpanel/users/{{username}}">{{u.first_name}} {{u.last_name}} ({{u.username}})</a>
+      <a href="/controlpanel/users/{{u.username}}/delete" title="Delete this user"><img src="/media/images/delete.png"/></a>
+      </li>
+    {% endfor %}
+    </ul>
+  {% endifequal %}
+
+
+  {% ifequal userForm.mode "create" %}
+    <fieldset class="collapsible collapsed"><legend>Add user</legend>
+      <form id="user" method="post" enctype="multipart/form-data">
+      {{userForm.as_p}}
+      <input type="submit" name="add_user" value="Add User"/>
+      </form>
+    </fieldset>
+  {% endifequal %}
+  {% ifequal userForm.mode "edit" %}
+    <h1>Edit User</h1>
+    <form id="user" method="post" enctype="multipart/form-data">
+    {{userForm.as_p}}
+    <input type="submit" name="edit_user" value="Save"/>
+    </form>
+  {% endifequal %}
+{% endblock %}

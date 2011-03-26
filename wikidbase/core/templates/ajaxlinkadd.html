@@ -1,0 +1,90 @@
+{% load thirdpartytags %}
+<div>
+  {% if localLinkNameWidget %}
+    <label>Local link name</label><br/>{{localLinkNameWidget}}<br/><br/>
+  {% endif %}
+
+  {% if not inline %}
+    <label>Target wikidpage</label><br/>
+  {% endif %}
+
+  <div>
+    <input class="link-add-input" autocomplete="off" type="text" size="45" id="{{name}}-input" onclick="$(this).clear(); $('{{name}}').clear(); $('{{foreignLinkID}}').options.length=0; EditableSelect.activateAll();"/>
+    <span id="{{name}}-indicator" style="display: none"><img src="/media/images/indicator_arrows.gif" alt="Working..." /></span>
+    <div id="{{name}}-choices" class="autocomplete"></div>
+    <input type="hidden" id="{{name}}" name="{{name}}" autocomplete="off"></input><br/>
+
+    {% if not inline %}
+      <div class='formtip'>
+      Enter any <b>keyword</b> (e.g. 'John') to find an existing page to link with, or enter the <b>type</b>
+      of a new page (e.g. 'person') to create a link to.
+      </div>
+    {% endif %}
+
+  </div>
+
+  {% if not inline %}
+    <br/>
+    <label>Foreign link name</label><br/>
+  {% endif %}
+
+  {{foreignLinkNameWidget}}
+
+  <script>
+
+  // TODO: Reset values when local link changed
+  new Ajax.Autocompleter("{{name}}-input", "{{name}}-choices", "{{lookupURL}}", {paramName:"searchString", indicator:"{{name}}-indicator", afterUpdateElement : 
+    function (text, li) {
+      // Store the id of the clicked page.
+      $("{{name}}").value = li.id;
+      
+      {% expr localLinkNameWidget and '$F("%s")' % localLinkID or '\'%s\'' % localLinkName as localLinkField %}
+
+      // Now look-up the fields.
+      new Ajax.Request('{{linkLookupURL}}?localPageContext={{wikidpage.context}};targetPageID='+li.id+';localLinkField='+{{localLinkField}}+'', { method:'get',
+          onSuccess: function(transport){
+          json = eval("("+transport.responseText+")");
+          options = $("{{foreignLinkID}}").options;
+          options.length = 0;
+          for (var i = 0; i < json.length; i++) {
+            options[i] = new Option(json[i],json[i]);
+          }
+          // Ensure this select is reactivated for editing.
+          EditableSelect.activateAll();
+          }
+      });
+    }
+  }); 
+  </script>
+
+  {% if not inline %}<p>{% endif %}
+  <input type="submit" value="Add Link"/>
+  {% if not inline %}</p>{% endif %}
+
+  {% if inline %}
+    <div class='formtip'>
+    Enter any <b>keyword</b> (e.g. 'John') to find an existing page or enter the <b>type</b>
+    of a new page (e.g. 'person') to create a link to, then select the field of that page to link to.
+    </div>
+  {% endif %}
+
+
+  {% if not inline %}
+    <hr/>
+
+    <h1>Quick wikidpage relationship guide</h1>
+
+    <p class='formtip'>
+    When creating a new relationship between the current wikidpage and another wikidpage, you require three pieces of information:
+    <ul class="formtip">
+    <li>the <b>local name</b> of the relationship</li>
+    <li>the <b>foreign name</b> of the relationship</li>
+    <li>and the <b>target wikidpage</b> that you are adding are relationship to</li>
+    </ul>
+    </p>
+    <p class='formtip'>
+    In some cases the local and foreign link names will be the same (e.g. a <b>friend</b>-<b>friend</b> relationship) and in others they will not (e.g. a <b>pet</b>-<b>owner</b> or <b>project</b>-<b>staff</b> relationship).
+    </p>
+  {% endif %}
+
+</div>

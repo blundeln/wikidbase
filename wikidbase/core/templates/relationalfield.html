@@ -1,0 +1,14 @@
+{% load tags %}
+
+<fieldset class="collapsible collapsed"><legend>{{displayName|capfirst}}</legend>
+
+  {% if ajaxLinkAddWidget and permissions.edit %}
+    {{ ajaxLinkAddWidget }}
+  {% endif %}
+
+  <div id="{{containerID}}">
+    {% if renderedQuerySet %}
+      {{renderedQuerySet}}
+    {% endif %}
+  </div>
+</fieldset>

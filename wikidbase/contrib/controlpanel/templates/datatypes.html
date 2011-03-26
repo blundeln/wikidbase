@@ -1,0 +1,39 @@
+{% load tags %}
+{% load thirdpartytags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Data Type Configuration{% endblock %}
+
+
+{% block content %}
+
+  <h1>Data Types</h1>
+
+  <p>
+  Click on the following data types to configure them.
+  </p>
+  
+  <ul>
+    {% for nContext in contexts %}
+      <li>
+        <a href="/controlpanel/datatype/{{nContext}}">{% expr contexts[nContext].capitalize() %}</a>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <h1>Relationships</h1>
+
+  <p>
+  Since wikidbase has no fixed data model, by default you can add any relationships you like among pages; however, sometimes you may want to tame this chaos by pre-defining
+  the relationships of your page types, which is what you can do here.  For example, if you have created two types of pages called 'Person' and 'Animal', you may want
+  to create relationships between these such as 'Owner - Pet' or 'Vet - Animal', then you can write relational queries such as: <i>show me all people where pets.name = 'Fido'</i>; 
+  or <i>show me people where pets.vets.pets.gender = male</i> (which translates to a list of all people who have pets who have vets who also have pets of the male gender - phew!).
+  </p>
+
+  <form id="add_relationship" method="post">
+    {{relationshipsForm}} 
+    <input type="submit" value="Add Relationship" name="save"/>
+  </form>
+
+
+{% endblock %}

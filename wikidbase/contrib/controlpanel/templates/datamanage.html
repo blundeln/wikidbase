@@ -1,0 +1,36 @@
+{% load tags %}
+{% extends "wikidbase.html" %}
+
+{% block title %}Control Panel{% endblock %}
+
+{% block content %}
+{% if form.has_errors %}
+  <div class="warnflash">Please correct the following error{{ form.error_dict|pluralize }}:</div>
+{% endif %}
+
+<h1>Data Management</h1>
+
+<p>
+Here you can export your entire wikidbase data to a single file for backup or transport to a newer version of wikidbase.  Note that, by the very nature of wikidbase being
+a semi-structured database (i.e. there is no strictly defined database schema), the data held within it is highly portable to other systems.
+</p>
+
+<form name="controlpanel" method="post" enctype="multipart/form-data">
+
+<h2>Data Export</h2>
+
+<button type="submit" name="dump-button" value="dump">Dump wikidbase data</button>
+
+<h2>Data Import</h2>
+
+<p>
+For smaller files, you can upload them through your browser (i.e. click the 'browse' button); for larger files, copy them the wikidbase server and enter the path to the file.
+</p>
+
+{{dataLoadForm}}
+
+<input type="submit" value="Save"/>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,84 @@
+<h1>Quick wikidpage editing guide: wiki and database</h1>
+<div class="formtip">
+      
+  <h1>wiki: writing page text</h1>
+
+  You can enter any text within a page, and that text can be structured (e.g. with heading levels,
+  bullet points, bold and italic, etc.) using a simple open document format known as restructured text.  Here's an example
+  of the basics of restructured text:
+  
+  <pre class="literal-block">
+Main Title
+==========
+
+Here are some bullet points:
+
+* Eggs
+* Beans
+* Spam
+
+Sub Title 1
+-----------
+
+This is *italic* and this is **bold**.
+  </pre>
+
+  For more information on using restructured text, see <a href="http://www.python.org/pycon/papers/rest_tutorial.html">re-structured text formatting</a></span>.
+
+  <h1>wiki: page linking</h1>
+  
+  To link pages wiki-style, type wikiwords like this:
+  
+  <pre class="literal-block">
+MyPage
+FunnyStory
+  </pre>
+  
+  or in brackets like this: 
+  
+  <pre class="literal-block">
+[[My Report]]
+[[Staff Page]]
+  </pre>
+  
+  These will automatically be recognised as links to wikidpages.  If the named wikidpage does not exists, then after you have saved this page, you may click on the question mark to create it.
+
+  <h1>database functionality</h1>
+  
+  Define wikidpage fields using this special markup: 
+  
+  <ul>
+  
+    <li>
+      <b>Basic fields</b>:
+      <pre class="literal-block">
+Name:: Fred
+Date of birth:: 31/5/80
+Can drive:: yes
+      </pre>
+    </li>
+    
+    <li>
+    <b>Multiline fields</b>:
+      <pre class="literal-block">
+Address::{
+The street
+The town
+The city
+}
+      </pre>
+    </li>
+    
+    <li>
+      <b>Commands and queries</b> to embed in a page (e.g for a particular report):
+      <pre class="literal-block">
+:::tasks:::
+:::animals type = "Gold fish":::
+:::show me staff and members where name contains "John":::
+:::show me animals where name = Tigger and owner.name = Fred:::
+:::show me anything where body contains "Hello" and modified < yesterday:::
+      </pre>
+    </li>
+  </ul>
+
+</div>

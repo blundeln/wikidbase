@@ -1,0 +1,9 @@
+<ul class="menu"> 
+  {% for menuLink in menuLinks %}
+    {% if menuLink %}
+      <li><a href="{{menuLink.0}}" title="{{menuLink.2}}"><img src="{{menuLink.3}}"/><br/>{{menuLink.1}}</a></li>
+    {% else %}
+      <li><hr/></li>
+    {% endif %}
+  {% endfor %}
+</ul>

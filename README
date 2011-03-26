@@ -1,0 +1,13 @@
+Testing
+=======
+
+PYTHONPATH="." python tests/run-tests.py  --selenium  --clear-data
+
+Or, for specific tests:
+
+PYTHONPATH="." python tests/run-tests.py  --selenium  --clear-data TestClassX testCaseY testCaseZ
+
+Packaging
+=========
+
+python real_setup.py bdist_deb

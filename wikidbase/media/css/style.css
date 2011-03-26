@@ -1,0 +1,319 @@
+/*
+ * style (style.css)
+ * -----------------
+ *
+ * Description:
+ *	Text styles, etc.
+ *
+ * Author       : Nick Blundell
+ * Organisation : www.nickblundell.org.uk
+ * Version Info : $Id$
+ */
+
+body {
+	color: #000000;
+	font: 78% sans-serif;
+	color: #333;
+}
+
+#footer {
+	text-align: center;
+	font: 70% sans-serif;
+}
+
+h1, h2, h3, h4 {
+	color: #646464;
+}
+
+h1 {font-size:145%;}
+h2 {font-size:135%;}
+h3 {font-size:128%;}
+h4 {font-size:120%;}
+h5 {font-size:110%;}
+
+h1, h2, h3, h4 {
+	color: #646464;
+}
+
+h1.title {font-size: 170%;}
+h1.subtitle {font-size: 160%;}
+
+a, a:link, a:visited {
+	color: #0000ff;
+	text-decoration: none; /* No underline or anything. */
+}
+
+h1 a, h2 a, h3 a, h4 a, h5 a {
+	color: #646464;
+}
+
+a:hover {
+	color: #ff0000;
+	text-decoration: none; /* No underline or anything. */
+}
+
+table {
+	border: 0px solid black;
+}
+
+tr, th {
+	text-align: left;
+}
+
+.centre, .center {
+	text-align: center;
+}
+
+pre.literal-block {
+	background-color: #fffc93;
+	border: 1px solid #646464;
+	padding: 1px;
+}
+
+img {
+	border: 0px;
+}
+
+
+
+/* FORMS */
+
+textarea, input, select {
+	background-color: #d6ecff;
+	border: 1px solid #646464;
+}
+
+input.button {
+	background-color: #aaaaaa;
+}
+
+input.button:hover {
+	background-color: #55de1b;
+}
+
+fieldset {padding:5px;}
+
+/* Tables for data views */
+
+tr.table-nav, tr.table-nav:hover, .permissions .category td {
+  background-color:#eee;
+}
+
+.table-nav td {
+	border: 1px solid #4d4d4d;
+  color:black;
+  font-size:1.2em;
+}
+
+.table-nav img, .table-nav div {
+  margin:0 2px 0 2px;
+  float:left;
+}
+
+.table-nav .left {
+  margin-left:0px;
+  margin-right:20px;
+}
+
+.table-nav .middle {
+  margin-left:auto;
+  margin-right:20px;
+}
+
+.table-nav .right {
+  margin-right:auto;
+  margin-left:0;
+}
+
+img.sortascend {
+  margin-bottom:3px;
+}
+img.sortascend:hover {
+  src:url("images/sort-ascend-on.png")
+}
+
+
+table.queryview {
+	border: 1px solid #4d4d4d;
+	font-size:0.8em;
+	border-collapse:collapse;
+	margin: 4px 0px 4px 0px;
+}
+
+table.queryview a {color:black;display:block;}
+
+table.queryview td, table.queryview th {
+	padding:2px;
+}
+
+table.queryview th {
+	border-bottom: 1px solid #4d4d4d;
+	border-left: 1px solid #4d4d4d;
+	background-color:#28cf0d;
+	text-align:left;
+  color:white;
+}
+
+table.queryview td  {
+	border-left: 1px solid #4d4d4d;
+	border-top: 1px solid #b3b3b3;
+	text-align:left;
+}
+
+table.tableview tr:hover, table.tableview th:hover, table.calendarview .cell:hover {
+	background-color: #a0ea94;
+}
+
+table.queryview th table {
+   margin:0;
+   padding:0;
+   border:0px;
+   width:100%;
+}
+table.queryview th table td {
+   border:0px;
+}
+
+table.queryview .dayname {
+  text-align:center;
+  width:100px;
+}
+table.VIEW_DAY .dayname {width:600px;}
+
+table.calendarview .cell {height:45px; padding:2px;}
+table.calendarview .today {background-color:#a9ddf9;}
+
+table.calendarview .cellheading {text-align:right; font-size:90%; padding:1px 2px 1px 1px; background-color:#def4e6;}
+table.calendarview .blur {color:#aaaaaa;}
+
+table.calendarview .calendaritem {border:1px solid #8d8d8d; background-color:#c8f3c1; margin:0 2px 2px 2px;}
+table.calendarview .calendaritem .body {margin:3px;}
+
+.calendaritem .header {clear:both; background-color:#28cf0d;border-bottom:1px solid #8d8d8d; color:white;}
+
+/* Menu style */
+ul.menu {list-style:none; padding:0; margin:0; text-align:center;}
+ul.menu li {font-size:0.9em; margin-bottom:4px; font-color:black;}
+ul.menu li img {margin:0 10px 0 10px;}
+
+hr {border:2px solid #b5b5b5;}
+
+.formtip {font-size:0.9em;}
+.formtip h1 {font-size:1em;}
+
+h1.pagetitle {position:absolute; right:20px; text-align:right; font-size:90%;}
+
+div.linkbutton {
+  text-align:left;
+  margin-bottom:3px;
+}
+
+div.linkbutton a {
+  border: 1px solid #999999;
+  background-color:#f2f2f2;
+  padding:3px;
+  color:black;
+}
+
+div.linkbutton a:hover {
+  background-color:#fdff6f;
+}
+
+span.wikiwordquestion {
+  font-weight:bold;
+  color:red;
+  font-size:1.3em;
+}
+
+textarea#id_content {
+  width:430px;
+  height:220px;
+}
+
+div.autocomplete {
+  position:absolute;
+  width:250px;
+  background-color:white;
+  border:1px solid #888;
+  margin:0px;
+  padding:0px;
+}
+div.autocomplete ul {
+  list-style-type:none;
+  margin:0px;
+  padding:0px;
+}
+div.autocomplete ul li.selected { background-color: #ffb;}
+div.autocomplete ul li {
+  list-style-type:none;
+  display:block;
+  margin:0;
+  padding:2px;
+  height:32px;
+  cursor:pointer;
+}
+
+.ajax-trigger {cursor:pointer;}
+
+#search-form {
+  clear: left;
+  float:left;
+  position:absolute;
+  top: 175px;
+}
+#search-form input {background-color:white;}
+
+ul.fileattachments {
+  list-style-type:none;
+  padding:0;
+}
+
+ul.messages {
+	list-style-type: none;
+	background-color: #fff125;
+	border: 1px solid #646464;
+	padding: 3px;
+}
+
+.warnflash, .warning, ul.errorlist {
+	background-color: #ff5555;
+	border: 1px solid #646464;
+	padding: 3px;
+  margin-top:3px;
+}
+
+div.system-message {
+	background-color: lightgreen;
+	border: 1px solid black;
+	padding: 2px;
+}
+
+
+label {width:120px;xbackground-color:blue;display:block;float:left;margin:0 0 10px 0; padding:0 0 0 0; font-weight:bold;}
+.addnewrel label {width:auto;}
+.formrow {margin:0 0 5px 0;clear:left;}
+
+td.row-options a {float:left; margin-right:2px;}
+fieldset {clear:left;}
+
+.tooltip {border:1px solid black; background-color:#fdff6f; padding:3px;}
+.vSelectMultipleField {
+  height:100px;
+}
+
+table.queryview a.cal-add {
+  float:left;
+  color:#bbb;
+}
+table.queryview a.cal-add:hover {
+  color: blue;
+}
+
+.cal-day-no {
+  float:right;
+}
+
+form li {list-style-type: none; clear:left;}
+.messagebox {
+  text-align: center;
+}
